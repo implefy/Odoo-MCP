@@ -12,12 +12,6 @@ def register_generic_tools(mcp: FastMCP, get_client: callable) -> None:
     """Register generic utility tools on the MCP server."""
 
     @mcp.tool()
-    def check_connection() -> dict:
-        """Test the connection to the Odoo instance and return server info."""
-        client: OdooClient = get_client()
-        return client.check_connection()
-
-    @mcp.tool()
     def search_records(
         model: str,
         domain: list | None = None,
