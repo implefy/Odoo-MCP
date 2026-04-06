@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "odoo-erp",
-      "source": ".",
+      "source": "./plugins/odoo-erp",
       "description": "Connect Claude to your Odoo instance for Sales, Contacts, Invoicing, and Project Management.",
       "version": "0.1.0",
       "author": {
