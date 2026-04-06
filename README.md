@@ -2,17 +2,40 @@
 
 MCP server that connects Claude to your Odoo ERP instance. Supports Sales, Contacts, Invoicing, and Project Management.
 
-## Install via Claude Desktop App
+## Setup for Cowork (Claude Desktop)
 
-1. Click the **+** button next to the prompt box in the Code tab
-2. Select **Plugins** > **Add plugin**
-3. Point it to this folder (or the GitHub repo once published)
-4. Fill in your Odoo credentials in `.mcp.json`:
-   - `ODOO_URL` — your Odoo instance URL
-   - `ODOO_DB` — database name
-   - `ODOO_USERNAME` — your login email
-   - `ODOO_API_KEY` — API key (see below)
-5. Done — the server auto-installs deps via `uv` and starts when Claude needs it
+Cowork runs in a sandbox that can't reach the internet, so the MCP server runs on your machine and Cowork connects to it over HTTP.
+
+### Step 1: Configure your Odoo credentials
+
+Copy `.env.example` to `.env` inside `plugins/odoo-erp/` and fill in your values:
+
+```env
+ODOO_URL=https://implefy-implefy-ab.odoo.com
+ODOO_DB=implefy-implefy-ab
+ODOO_USERNAME=your-email@example.com
+ODOO_API_KEY=your-api-key-here
+```
+
+### Step 2: Start the MCP server
+
+```bash
+cd plugins/odoo-erp
+start.bat          # Windows
+# or
+./start.sh         # Mac/Linux
+```
+
+This starts the server at `http://localhost:8000/mcp`. Keep this terminal open.
+
+### Step 3: Add the plugin in Cowork
+
+```
+/plugin marketplace add implefy/Odoo-MCP
+/plugin install odoo-erp@implefy-plugins
+```
+
+The plugin connects to your local MCP server automatically.
 
 ### Generate an Odoo API Key
 
@@ -21,12 +44,6 @@ MCP server that connects Claude to your Odoo ERP instance. Supports Sales, Conta
 3. Click your user, then the **Account Security** tab
 4. Under **API Keys**, click **New API Key**
 5. Name it "Claude MCP" and copy the key
-
-### Alternative: Claude Code CLI
-
-```bash
-claude --plugin-dir "C:/Users/imple/Odoo MCP"
-```
 
 ## Slash Commands
 
@@ -54,27 +71,3 @@ claude --plugin-dir "C:/Users/imple/Odoo MCP"
 
 ### Generic (9 tools)
 `check_connection`, `search_records`, `get_record`, `count_records`, `get_model_fields`, `search_products`, `create_record`, `update_record`, `delete_record`
-
-## Architecture
-
-```
-├── .claude-plugin/
-│   └── plugin.json        # Plugin manifest
-├── .mcp.json              # MCP server config (env vars go here)
-├── skills/                # Workflow guides
-│   ├── sales-workflow/
-│   ├── contacts-workflow/
-│   ├── invoicing-workflow/
-│   └── projects-workflow/
-├── commands/              # Slash commands
-│   ├── quote/
-│   ├── order-status/
-│   ├── customer/
-│   ├── invoice/
-│   └── task/
-├── src/
-│   ├── server.py          # FastMCP server entry point
-│   ├── odoo_client.py     # XML-RPC client wrapper
-│   └── tools/             # Tool modules (sales, contacts, invoicing, projects, generic)
-└── pyproject.toml
-```

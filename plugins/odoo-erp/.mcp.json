@@ -1,14 +1,8 @@
 {
   "mcpServers": {
     "odoo": {
-      "command": "uv",
-      "args": ["run", "--project", ".", "python", "-m", "src.server"],
-      "env": {
-        "ODOO_URL": "",
-        "ODOO_DB": "",
-        "ODOO_USERNAME": "",
-        "ODOO_API_KEY": ""
-      }
+      "type": "url",
+      "url": "http://localhost:8000/mcp"
     }
   }
 }

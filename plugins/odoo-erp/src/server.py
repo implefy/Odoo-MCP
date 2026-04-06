@@ -1,7 +1,19 @@
-"""Odoo MCP Server — main entry point."""
+"""Odoo MCP Server — main entry point.
+
+Supports two transport modes:
+  - stdio (default): for Claude Desktop / Claude Code local use
+  - http: for Cowork / remote access (runs on port 8000 by default)
+
+Usage:
+  python -m src.server              # stdio mode
+  python -m src.server --http       # HTTP mode on 0.0.0.0:8000
+  python -m src.server --http 9000  # HTTP mode on custom port
+"""
 
 import os
+import sys
 
+from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 
 from src.odoo_client import OdooClient
@@ -10,6 +22,8 @@ from src.tools.contacts import register_contacts_tools
 from src.tools.invoicing import register_invoicing_tools
 from src.tools.projects import register_projects_tools
 from src.tools.generic import register_generic_tools
+
+load_dotenv()
 
 mcp = FastMCP(
     "Odoo MCP Server",
@@ -54,7 +68,13 @@ register_generic_tools(mcp, get_client)
 
 
 def main():
-    mcp.run()
+    args = sys.argv[1:]
+    if "--http" in args:
+        idx = args.index("--http")
+        port = int(args[idx + 1]) if idx + 1 < len(args) else 8000
+        mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
+    else:
+        mcp.run()
 
 
 if __name__ == "__main__":
