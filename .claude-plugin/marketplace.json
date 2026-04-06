@@ -1,0 +1,24 @@
+{
+  "name": "implefy-plugins",
+  "owner": {
+    "name": "Implefy"
+  },
+  "metadata": {
+    "description": "Implefy Odoo ERP plugin for Claude",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "odoo-erp",
+      "source": ".",
+      "description": "Connect Claude to your Odoo instance for Sales, Contacts, Invoicing, and Project Management.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Implefy"
+      },
+      "keywords": ["odoo", "erp", "sales", "invoicing", "crm"],
+      "category": "productivity",
+      "tags": ["odoo", "erp", "sales", "invoicing", "contacts", "projects"]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "odoo": {
+      "command": "uv",
+      "args": ["run", "--project", ".", "python", "-m", "src.server"],
+      "env": {
+        "ODOO_URL": "",
+        "ODOO_DB": "",
+        "ODOO_USERNAME": "",
+        "ODOO_API_KEY": ""
+      }
+    }
+  }
+}
